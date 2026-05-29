@@ -32,7 +32,7 @@ export function LeadConversionModal({ leadId, onClose, onSubmit }: LeadConversio
       }
 
       // We send the manually selected sentiment to the backend
-      const res = await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/leads/${leadId}/convert`, {
+      const res = await fetch(`https://crm-files.onrender.com/api/v1/leads/${leadId}/convert`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export function LeadConversionModal({ leadId, onClose, onSubmit }: LeadConversio
       let agentId = null;
       if (stored) agentId = JSON.parse(stored).agentId;
 
-      const res = await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/leads/${leadId}/convert`, {
+      const res = await fetch(`https://crm-files.onrender.com/api/v1/leads/${leadId}/convert`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

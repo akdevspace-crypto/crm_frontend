@@ -42,7 +42,7 @@ export function ConversationThread() {
       
       // If channel is Email, send an actual email
       if (activeConv.channel === 'email') {
-        await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/messages/send-email`, {
+        await fetch(`https://crm-files.onrender.com/api/messages/send-email`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -55,7 +55,7 @@ export function ConversationThread() {
         });
       } else if (activeConv.channel === 'whatsapp') {
         // Send actual WhatsApp via Twilio
-        await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/messages/send-whatsapp`, {
+        await fetch(`https://crm-files.onrender.com/api/messages/send-whatsapp`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -65,7 +65,7 @@ export function ConversationThread() {
         });
       } else if (activeConv.channel === 'chat' || activeConv.channel === 'instagram' || activeConv.channel === 'messenger') {
         // Send actual Instagram message via Meta Graph API
-        await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/messages/send-instagram`, {
+        await fetch(`https://crm-files.onrender.com/api/messages/send-instagram`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -75,7 +75,7 @@ export function ConversationThread() {
         });
       } else {
         // Standard WebRTC/Internal message
-        await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/messages/send`, {
+        await fetch(`https://crm-files.onrender.com/api/v1/messages/send`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

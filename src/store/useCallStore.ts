@@ -66,9 +66,9 @@ export const useCallStore = create<CallState>((set) => ({
     try {
       const baseUrl = typeof window !== 'undefined' 
         ? (window.location.hostname.includes('devtunnels.ms') 
-            ? 'https://' + window.location.hostname.replace('3000', '3005') 
-            : 'http://' + window.location.hostname + ':3005') 
-        : 'https://b5tvsxt0-3005.inc1.devtunnels.ms';
+            ? 'https://' + window.location.hostname.replace('3000', '4000') 
+            : 'http://' + window.location.hostname + ':4000') 
+        : 'https://crm-files.onrender.com';
       const res = await fetch(`${baseUrl}/exotel/dashboard-calls`);
       if (res.ok) {
         const data = await res.json();

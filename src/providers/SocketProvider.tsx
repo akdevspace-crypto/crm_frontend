@@ -46,7 +46,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (!globalSocket) {
       const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
-      globalSocket = io("https://b5tvsxt0-4000.inc1.devtunnels.ms", {
+      globalSocket = io("https://crm-files.onrender.com", {
         path: '/socket.io',
         transports: ['websocket'],
         reconnection: true,
@@ -60,7 +60,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (!globalTelephonySocket) {
       const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
-      globalTelephonySocket = io(`${typeof window !== "undefined" ? (window.location.hostname.includes("devtunnels.ms") ? "https://" + window.location.hostname.replace("3000", "3005") : "http://" + window.location.hostname + ":3005") : "https://b5tvsxt0-3005.inc1.devtunnels.ms"}`, {
+      globalTelephonySocket = io("https://crm-files.onrender.com", {
         transports: ['websocket'],
         reconnection: true,
         reconnectionAttempts: Infinity,
@@ -234,10 +234,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       const { status, incomingCall, setIncomingCall } = useCallStore.getState();
       if (status === 'AVAILABLE' && !incomingCall && user?.id) {
         try {
-          const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
-          const apiUrl = window.location.hostname.includes('devtunnels.ms') 
-            ? `https://${window.location.hostname.replace('3000', '3005')}/exotel/my-ringing-call?agentId=${user.id}`
-            : `http://${hostname}:3005/exotel/my-ringing-call?agentId=${user.id}`;
+          const apiUrl = `https://crm-files.onrender.com/exotel/my-ringing-call?agentId=${user.id}`;
             
           const res = await fetch(apiUrl);
           if (res.ok) {

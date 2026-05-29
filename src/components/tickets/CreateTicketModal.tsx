@@ -24,7 +24,7 @@ export function CreateTicketModal({ onClose, onSuccess }: CreateTicketModalProps
     setIsSubmitting(true);
     try {
       const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
-      const res = await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/tickets`, {
+      const res = await fetch(`https://crm-files.onrender.com/api/v1/tickets`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

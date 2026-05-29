@@ -29,7 +29,7 @@ interface LeadStore {
   addLead: (leadData: Partial<Lead>, token: string) => Promise<boolean>;
 }
 
-const API_URL = `https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1`;
+const API_URL = `https://crm-files.onrender.com/api/v1`;
 
 export const useLeadStore = create<LeadStore>((set, get) => ({
   leads: [],
