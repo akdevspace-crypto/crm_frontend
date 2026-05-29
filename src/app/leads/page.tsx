@@ -10,7 +10,7 @@ export default function LeadAnalyticsPage() {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const res = await fetch(`${typeof window !== "undefined" ? (window.location.hostname.includes("devtunnels.ms") ? "https://" + window.location.hostname.replace("3000", "4000") : "http://" + window.location.hostname + ":4000") : "http://localhost:4000"}/api/v1/leads/analytics/dashboard`);
+        const res = await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/leads/analytics/dashboard`);
         const json = await res.json();
         setData(json);
       } catch (error) {
