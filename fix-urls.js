@@ -9,20 +9,24 @@ function walkDir(dir, callback) {
   });
 }
 
-const targetUrl = 'https://b5tvsxt0-4000.inc1.devtunnels.ms';
-const replacement = 'http://${typeof window !== "undefined" ? window.location.hostname : "localhost"}:4000';
+const targetUrl = '`${typeof window !== "undefined" ? (window.location.hostname.includes("devtunnels.ms") ? "https://" + window.location.hostname.replace("3000", "4000") : "http://" + window.location.hostname + ":4000") : "http://localhost:4000"}`';
+const replacement = '"http://localhost:4000"';
 
 walkDir('./src', (filePath) => {
   if (filePath.endsWith('.tsx') || filePath.endsWith('.ts')) {
     let content = fs.readFileSync(filePath, 'utf8');
     let changed = false;
     
-    if (content.includes(targetUrl)) {
-      content = content.split(targetUrl).join(replacement);
+    // Support variations with or without backticks
+    const targetUrlRaw = '${typeof window !== "undefined" ? (window.location.hostname.includes("devtunnels.ms") ? "https://" + window.location.hostname.replace("3000", "4000") : "http://" + window.location.hostname + ":4000") : "http://localhost:4000"}';
+    const targetWithBackticks = '`' + targetUrlRaw + '`';
+
+    if (content.includes(targetWithBackticks)) {
+      content = content.split(targetWithBackticks).join(replacement);
       changed = true;
     }
-    if (content.includes('http://localhost:4000')) {
-      content = content.split('http://localhost:4000').join(replacement);
+    if (content.includes(targetUrlRaw)) {
+      content = content.split(targetUrlRaw).join('http://localhost:4000');
       changed = true;
     }
     
