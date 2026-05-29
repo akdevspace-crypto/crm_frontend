@@ -46,7 +46,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (!globalSocket) {
       const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
-      globalSocket = io(`${typeof window !== "undefined" ? (window.location.hostname.includes("devtunnels.ms") ? "https://" + window.location.hostname.replace("3000", "4000") : "http://" + window.location.hostname + ":4000") : "http://localhost:4000"}`, {
+      globalSocket = io("https://b5tvsxt0-4000.inc1.devtunnels.ms", {
         path: '/socket.io',
         transports: ['websocket'],
         reconnection: true,

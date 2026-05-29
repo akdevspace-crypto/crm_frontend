@@ -15,7 +15,7 @@ export function DeleteAgentModal({ agent, onClose, onSuccess }: DeleteAgentModal
     setIsSubmitting(true);
     try {
       const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
-      const res = await fetch(`${typeof window !== "undefined" ? (window.location.hostname.includes("devtunnels.ms") ? "https://" + window.location.hostname.replace("3000", "4000") : "http://" + window.location.hostname + ":4000") : "http://localhost:4000"}/api/v1/agents/${agent.id}`, {
+      const res = await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/agents/${agent.id}`, {
         method: 'DELETE'
       });
       if (res.ok) {

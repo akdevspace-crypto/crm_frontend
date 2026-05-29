@@ -91,7 +91,7 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
-      const res = await fetch(`${typeof window !== "undefined" ? (window.location.hostname.includes("devtunnels.ms") ? "https://" + window.location.hostname.replace("3000", "4000") : "http://" + window.location.hostname + ":4000") : "http://localhost:4000"}/api/v1/conversations`);
+      const res = await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/conversations`);
       if (!res.ok) throw new Error('Failed to fetch conversations');
       const data = await res.json();
       set({ conversations: data, isLoading: false });
@@ -104,7 +104,7 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
     set({ isMessagesLoading: true, error: null });
     try {
       const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
-      const res = await fetch(`${typeof window !== "undefined" ? (window.location.hostname.includes("devtunnels.ms") ? "https://" + window.location.hostname.replace("3000", "4000") : "http://" + window.location.hostname + ":4000") : "http://localhost:4000"}/api/v1/conversations/${conversationId}/messages`);
+      const res = await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/conversations/${conversationId}/messages`);
       if (!res.ok) throw new Error('Failed to fetch messages');
       const data = await res.json();
       set((state) => ({
@@ -120,7 +120,7 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
     set({ isCustomerLoading: true, error: null });
     try {
       const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
-      const res = await fetch(`${typeof window !== "undefined" ? (window.location.hostname.includes("devtunnels.ms") ? "https://" + window.location.hostname.replace("3000", "4000") : "http://" + window.location.hostname + ":4000") : "http://localhost:4000"}/api/v1/customers/${customerId}`);
+      const res = await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/customers/${customerId}`);
       if (!res.ok) throw new Error('Failed to fetch customer profile');
       const data = await res.json();
       set({ activeCustomerProfile: data, isCustomerLoading: false });
@@ -272,7 +272,7 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
         ? (window.location.hostname.includes('devtunnels.ms') 
           ? `https://${window.location.hostname.replace('3000', '4000')}`
           : `http://${window.location.hostname}:4000`)
-        : 'http://localhost:4000';
+        : 'https://b5tvsxt0-4000.inc1.devtunnels.ms';
         
       await fetch(`${baseUrl}/api/v1/conversations/${conversationId}/read`, {
         method: 'PUT'
