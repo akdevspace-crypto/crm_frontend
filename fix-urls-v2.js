@@ -10,7 +10,7 @@ function walkDir(dir, callback) {
 }
 
 const oldStr = '`http://${typeof window !== "undefined" ? window.location.hostname : "localhost"}:4000';
-const newStr = '`${typeof window !== "undefined" ? (window.location.hostname.includes("devtunnels.ms") ? "https://" + window.location.hostname.replace("3000", "4000") : "http://" + window.location.hostname + ":4000") : "http://localhost:4000"}';
+const newStr = '`${typeof window !== "undefined" ? (window.location.hostname.includes("devtunnels.ms") ? "https://" + window.location.hostname.replace("3000", "4000") : "http://" + window.location.hostname + ":4000") : "https://crm-files.onrender.com"}';
 
 walkDir('./src', (filePath) => {
   if (filePath.endsWith('.tsx') || filePath.endsWith('.ts')) {

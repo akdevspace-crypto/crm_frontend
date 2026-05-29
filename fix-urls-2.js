@@ -16,14 +16,8 @@ walkDir(srcDir, (filePath) => {
     let content = fs.readFileSync(filePath, 'utf8');
     let original = content;
 
-    // Replace API URL devtunnels explicitly with NEXT_PUBLIC_BACKEND_URL
-    content = content.replace(/https:\/\/b5tvsxt0-4000\.inc1\.devtunnels\.ms/g, 'https://crm-files.onrender.com');
-    content = content.replace(/https:\/\/b5tvsxt0-3005\.inc1\.devtunnels\.ms/g, 'https://crm-files.onrender.com');
-
-    // Replace 3005 with 4000
+    content = content.replace(/"3005"/g, '"4000"');
     content = content.replace(/'3005'/g, "'4000'");
-    content = content.replace(/3005\)/g, "4000)");
-    content = content.replace(/:3005/g, ":4000");
 
     if (original !== content) {
       fs.writeFileSync(filePath, content, 'utf8');
