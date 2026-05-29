@@ -36,7 +36,7 @@ export default function LeadUploadPage() {
     formData.append('uploadedById', userId);
 
     try {
-      const res = await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/leads/upload`, {
+      const res = await fetch(`https://crm-files.onrender.com/api/v1/leads/upload`, {
         method: 'POST',
         body: formData,
       });

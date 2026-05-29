@@ -59,7 +59,7 @@ export default function AgentDashboard() {
         }
 
         const agentIdQuery = localAgentId ? `?agentId=${localAgentId}` : '';
-        const res = await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/agents/dashboard-metrics${agentIdQuery}`);
+        const res = await fetch(`https://crm-files.onrender.com/api/v1/agents/dashboard-metrics${agentIdQuery}`);
         const json = await res.json();
         if (json.success) {
           setData(json);

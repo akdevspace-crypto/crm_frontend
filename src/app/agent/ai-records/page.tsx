@@ -23,7 +23,7 @@ export default function AiRecordsPage() {
         } catch(e) {}
 
         const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
-        const res = await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/call-records`, {
+        const res = await fetch(`https://crm-files.onrender.com/api/v1/call-records`, {
           headers: {
             'x-user-role': role,
             'x-agent-id': agentId

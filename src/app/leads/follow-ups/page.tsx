@@ -11,7 +11,7 @@ export default function LeadFollowUpsPage() {
   useEffect(() => {
     const fetchFollowups = async () => {
       try {
-        const res = await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/followups`);
+        const res = await fetch(`https://crm-files.onrender.com/api/v1/followups`);
         const data = await res.json();
         setFollowups(data);
       } catch (error) {
@@ -25,7 +25,7 @@ export default function LeadFollowUpsPage() {
 
   const handleComplete = async (id: string) => {
     try {
-      await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/followups/${id}/status`, {
+      await fetch(`https://crm-files.onrender.com/api/v1/followups/${id}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'COMPLETED' })

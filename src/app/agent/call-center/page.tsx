@@ -28,7 +28,7 @@ export default function AgentCallCenter() {
     const fetchAgents = async () => {
       try {
         const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
-        const res = await fetch(`https://b5tvsxt0-4000.inc1.devtunnels.ms/api/v1/agents`);
+        const res = await fetch(`https://crm-files.onrender.com/api/v1/agents`);
         if (res.ok) {
           const data = await res.json();
           setAgents(data.agents || []);
