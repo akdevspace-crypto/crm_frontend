@@ -1,0 +1,247 @@
+import React, { useState } from 'react';
+import { X, UserPlus, CheckCircle, Loader2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+interface AddAgentModalProps {
+  onClose: () => void;
+  onSuccess: () => void;
+}
+
+export function AddAgentModal({ onClose, onSuccess }: AddAgentModalProps) {
+  const [activeTab, setActiveTab] = useState<'personal' | 'work' | 'login'>('personal');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    state: '',
+    country: '',
+    zipCode: '',
+    gender: '',
+    dob: '',
+    employeeId: '',
+    department: '',
+    role: 'AGENT',
+    status: 'AVAILABLE',
+    joinedAt: new Date().toISOString().split('T')[0],
+    password: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
+      const res = await fetch(`${typeof window !== "undefined" ? (window.location.hostname.includes("devtunnels.ms") ? "https://" + window.location.hostname.replace("3000", "4000") : "http://" + window.location.hostname + ":4000") : "http://localhost:4000"}/api/v1/agents/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      if (res.ok) {
+        onSuccess();
+      } else {
+        const err = await res.json();
+        alert(`Error: ${err.error || 'Failed to create agent'}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Network error occurred.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const tabs = [
+    { id: 'personal', label: 'Personal Info' },
+    { id: 'work', label: 'Work Info' },
+    { id: 'login', label: 'Credentials' }
+  ];
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        className="bg-[#0a0a0a] border border-[#222] rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]"
+      >
+        <div className="p-6 border-b border-[#222] flex items-center justify-between bg-[#111]">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center border border-primary/30">
+              <UserPlus className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-white leading-tight">Add New Agent</h2>
+              <p className="text-xs text-slate-500">Create a profile and generate login credentials</p>
+            </div>
+          </div>
+          <button onClick={onClose} className="p-2 text-slate-400 hover:text-white hover:bg-[#222] rounded-lg transition-colors">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="flex border-b border-[#222] bg-[#050505]">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`flex-1 py-3 text-sm font-medium border-b-2 transition-colors ${
+                activeTab === tab.id 
+                  ? 'border-primary text-primary bg-primary/5' 
+                  : 'border-transparent text-slate-500 hover:text-slate-300 hover:bg-[#111]'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+          <form id="add-agent-form" onSubmit={handleSubmit} className="space-y-6">
+            
+            {activeTab === 'personal' && (
+              <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-right-4 duration-300">
+                <div className="col-span-2">
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Full Name *</label>
+                  <input required name="fullName" value={formData.fullName} onChange={handleChange} type="text" className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Email Address *</label>
+                  <input required name="email" value={formData.email} onChange={handleChange} type="email" className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Phone Number</label>
+                  <input name="phone" value={formData.phone} onChange={handleChange} type="text" className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors" />
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Address</label>
+                  <input name="address" value={formData.address} onChange={handleChange} type="text" className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">City</label>
+                  <input name="city" value={formData.city} onChange={handleChange} type="text" className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">State / Province</label>
+                  <input name="state" value={formData.state} onChange={handleChange} type="text" className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Country</label>
+                  <input name="country" value={formData.country} onChange={handleChange} type="text" className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">ZIP Code</label>
+                  <input name="zipCode" value={formData.zipCode} onChange={handleChange} type="text" className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Gender</label>
+                  <select name="gender" value={formData.gender} onChange={handleChange} className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors">
+                    <option value="">Select...</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Date of Birth</label>
+                  <input name="dob" value={formData.dob} onChange={handleChange} type="date" className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors [color-scheme:dark]" />
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'work' && (
+              <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-right-4 duration-300">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Employee ID</label>
+                  <input name="employeeId" value={formData.employeeId} onChange={handleChange} type="text" className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Department</label>
+                  <input name="department" value={formData.department} onChange={handleChange} type="text" className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Role</label>
+                  <select name="role" value={formData.role} onChange={handleChange} className="w-full bg-[#111] border border-[#333] focus:border-orange-500 rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors">
+                    <option value="AGENT">Agent</option>
+                    <option value="SUPERVISOR">Supervisor</option>
+                    <option value="ADMIN">Admin</option>
+                    <option value="SUPER_ADMIN">Super Admin</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Initial Status</label>
+                  <select name="status" value={formData.status} onChange={handleChange} className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors">
+                    <option value="AVAILABLE">Available (Online)</option>
+                    <option value="OFFLINE">Offline</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Joining Date</label>
+                  <input name="joinedAt" value={formData.joinedAt} onChange={handleChange} type="date" className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors [color-scheme:dark]" />
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'login' && (
+              <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
+                <div className="p-4 bg-primary/10 border border-primary/20 rounded-xl text-primary text-sm mb-6 flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" />
+                  <p>Credentials will be securely stored in Supabase Auth and linked to the agent's database profile. The agent can use this email and password to log in.</p>
+                </div>
+                <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-right-4 duration-300 delay-75">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Platform Login Email *</label>
+                  <input name="email" value={formData.email} onChange={handleChange} type="email" required className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Temporary Password *</label>
+                  <input name="password" value={formData.password} onChange={handleChange} type="password" required className="w-full bg-[#111] border border-[#333] focus:border-primary rounded-lg px-4 py-2 text-sm outline-none text-white transition-colors" />
+                </div>
+                </div>
+              </div>
+            )}
+          </form>
+        </div>
+
+        <div className="p-5 border-t border-[#222] bg-[#111] flex justify-between items-center">
+          <div className="flex gap-2">
+            {activeTab !== 'personal' && (
+              <button 
+                type="button" 
+                onClick={() => setActiveTab(activeTab === 'login' ? 'work' : 'personal')}
+                className="px-4 py-2 border border-[#333] text-slate-300 rounded-lg text-sm font-medium hover:bg-[#222] transition-colors"
+              >
+                Back
+              </button>
+            )}
+          </div>
+          
+          {activeTab !== 'login' ? (
+            <button 
+              type="button" 
+              onClick={() => setActiveTab(activeTab === 'personal' ? 'work' : 'login')}
+              className="px-6 py-2 bg-white text-black rounded-lg text-sm font-bold hover:bg-slate-200 transition-colors"
+            >
+              Continue
+            </button>
+          ) : (
+            <button 
+              type="submit" 
+              form="add-agent-form"
+              disabled={isSubmitting}
+              className="flex items-center gap-2 px-6 py-2 bg-primary text-white rounded-lg hover:bg-orange-600 transition-colors text-sm font-bold shadow-lg shadow-primary/20"
+            >
+              {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isSubmitting ? 'Creating...' : 'Create Agent Profile'}
+            </button>
+          )}
+        </div>
+      </motion.div>
+    </div>
+  );
+}
