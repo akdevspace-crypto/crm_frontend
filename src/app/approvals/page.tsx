@@ -16,7 +16,7 @@ export default function ApprovalsPage() {
     try {
       setLoading(true);
       const url = isApprover 
-        ? '${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005'}/v1/approvals' 
+        ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005'}/v1/approvals` 
         : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005'}/v1/approvals?requesterId=${user?.id}`;
       
       const res = await fetch(url, {

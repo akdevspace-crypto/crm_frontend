@@ -18,7 +18,7 @@ export function OverallDashboard() {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('paramantra_access_token') || '';
-        const res = await fetch('${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005'}/agents/dashboard-metrics', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005'}/agents/dashboard-metrics`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         const json = await res.json();

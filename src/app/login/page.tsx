@@ -40,7 +40,7 @@ export default function LoginPage() {
     try {
       const apiEndpoint = process.env.NEXT_PUBLIC_API_URL
         ? `${process.env.NEXT_PUBLIC_API_URL}/auth/login`
-        : '${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005'}/auth/login';
+        : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005'}/auth/login`;
 
       const res = await fetch(apiEndpoint, {
         method: 'POST',
